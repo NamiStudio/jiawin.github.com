@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>觉唯网风格的个人主页展示</title>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) 可放在头部，此时加载的速度稍微快一点-->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/down.css">
+    <link rel="stylesheet" type="text/css" href="css/animation.css">
+    <style type="text/css">
+      .clearfix:after{
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      body{
+        background-image:url('img/personal.jpg');
+        background-repeat:no-repeat;
+        background-size: 100% 350px;
+        background-attachment:fixed;
+        font-family: "Microsoft Yahei",Arial;
+        
+      }
+      ::selection { background:#E54785;}
+/*      .navi{
+        height: 55px;
+        padding-top: 5px;
+        background-color: #333;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+        text-align: center;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.0470588) 0px 2px 2px 0px, rgba(0, 0, 0, 0.0470588) 0px 1px 0px 0px;
+        box-shadow: rgba(0, 0, 0, 0.0470588) 0px 2px 2px 0px, rgba(0, 0, 0, 0.0470588) 0px 1px 0px 0px;
+        font-family: '微软雅黑';
+        opacity: 0.5;
+
+      }
+      自定义的导航栏头部，固定顶部，宽度为100%；*/
+      .navbar{
+        opacity: 0.7;
+      }
+      .navbar-brand{
+        padding: 0;
+      }
+
+      .navbar-form{
+        margin-right: 0;
+      }
+      /*搜索框*/
+      .nav>li>a{
+        padding: 15px 35px;
+      }
+      /*导航选项设置合理宽度；*/
+      
+      .dropdown-menu{
+        background-color: #333;
+      }
+      /*将bootstrap原本默认的下拉菜单背景色由白设置为黑*/
+      .dropdown-menu>li>a{
+        color: white;
+      }
+      /*将bootstrap原本默认的下拉菜单字体颜色由黑设置为白*/
+      
+      .btn-group{
+        margin-right: 15px;
+      }
+      .btn-group button{
+        background-color: #333;
+        color: white;
+      }
+      .header{
+        width: 100%;
+        top: 99px;
+        position: fixed;
+        text-align: center;
+        font:12px/1.5 "Microsoft Yahei",Arial;
+        color:white;
+        z-index: 0;
+      }
+      .bgimg{
+        background-image: url('img/headimg.png');
+        background-size: 100% 100%;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+        border-radius: 100px;
+      }
+      .name{
+        margin-top: 10px;
+        font-size: 21px;
+      }
+      .feeling{
+        font-size: 14px;
+      }
+      
+
+      .content{
+        position: relative;
+        margin-top: 350px;
+        background-color: #F1F1F1;
+        text-align: center;
+        padding-top: 10px;
+      }
+
+      .guide{
+
+        border-bottom: 1px solid #d8d8d8;
+      }
+      .guide>ul{
+        list-style: none;
+      }
+      .guide>ul>li{
+        float: left;
+        margin-right: 20px;
+      }
+
+
+      .item{
+        width: 270px;
+/*        height: 400px; 随页面内容增加高度增加*/
+        background-color: white;
+        display: inline-block;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 10px;
+        box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
+      }
+
+
+      .item-img{
+        width: 270px;
+/*        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+        父元素设置了overf：hidden后，图片的方角就不会覆盖父元素的圆角；*/
+      }
+
+      .item-tip{
+        height: 36px;
+        background-color: #FFD633;
+        margin-top: -36px;
+        position: relative;
+        font-family: Arial;
+        color: #666;
+        font-weight: bold;
+        padding-left: 12px;
+        padding-right: 12px;
+        opacity: 0;
+        /*-webkit-transition: width 2s;*/
+        /*此处用了margin-top属性等于负值是未定位的元素上移，比起relative的好处是没有留下原位置空白，然后设置position：relative并设置z-index属性使元素显示而不被覆盖*/
+      }
+      .item-tip .left{
+        height: 36px;
+        line-height: 36px;
+        float: left;
+
+        /*display: inline;*/
+        /*此处不知为什么，设置display：inline后自动转化为block；*/
+      }
+      .item-tip .right{
+        height: 36px;
+        line-height: 36px;
+        float: right;
+      }
+      .item-content{
+        padding: 15px;
+        text-align: left;
+      }
+      .item-content h4{
+        /*text-align: left;*/
+        color: #60B7E1;
+        margin: 0;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .item-content h4 a{
+        text-decoration: none;
+      }
+      .item-content p{
+        /*text-align: left;*/
+        display: block;
+        margin: 0;
+        height: 80px;
+        overflow: hidden;
+        font-size: 12px;
+        line-height: 20px;
+      }
+    </style>
+    
+    <script>
+      $(function(){
+        $(".item").hover(function() {
+          $(this).children('.item-tip').stop(true,true).animate({opacity:0.9}, 300);                
+        }, function() {      
+          $(this).children('.item-tip').stop(true,true).animate({opacity:0}, 300);         
+        });
+        // 图片hover遮罩层提示效果
+      })
+    </script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+<!--     <div class="navi"> -->
+      <!-- <img src="img/logo.jpg" alt="">
+      设置为觉唯的唯然网那样的logo图片居中效果 -->
+      
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+   <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" 
+         data-target="#example-navbar-collapse">
+         <span class="sr-only">切换导航</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="img/jueweilogo.png" alt="" class="logo"></a>
+   </div>
+   <div class="collapse navbar-collapse" id="example-navbar-collapse">
+      <div class="btn-group navbar-right">
+          <button type="button" class="btn btn-default navbar-btn">登录</button>
+          <button type="button" class="btn btn-default navbar-btn">注册</button>
+      </div>
+
+      <form class="navbar-form navbar-right form-inline" role="search">
+         <!-- <button type="button" class="btn btn-default">
+         导航栏按钮
+         </button> -->
+         <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+            <a href="#" class="search">
+              <span class="glyphicon glyphicon-search" style="color: white; font-size: 14px;"></span>
+            </a>
+         </div>
+      </form> 
+      <ul class="nav navbar-nav">
+         <li><a href="#">兴趣</a></li>
+         <li><a href="#">欣赏</a></li>
+         <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+               发烧<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+               <li><a href="#">小幻影</a></li>
+               <li><a href="#">迎广</a></li>
+               <li><a href="#">NVIDIA</a></li>
+               <li class="divider"></li>
+               <li><a href="#">海盗船</a></li>
+               <li class="divider"></li>
+               <li><a href="#">赛睿</a></li>
+            </ul>
+         </li>
+      </ul>
+   </div>
+</nav>
+<!--     </div> -->
+    <div class="header">
+      <div class="bgimg"></div>
+      <div class="name">cxw2014</div>
+      <div class="feeling">Smell the night</div>
+    </div>
+
+
+    <div class="content">
+
+
+      <div class="guide">
+        <ul class="clearfix">
+          <li>
+            <div id="dd" class="wrapper-dropdown-5" tabindex="1"><span class="glyphicon glyphicon-time"></span> 不限时间
+              <ul class="dropdown">
+                <li><a href="#"></i>一周内</a></li>
+                <li><a href="#"><i class="icon-cog"></i>一月内</a></li>
+                <li><a href="#"><i class="icon-remove"></i>一年内</a></li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <div id="dd" class="wrapper-dropdown-5" tabindex="1"><span class="glyphicon glyphicon-sort"></span> 最新发布
+              <ul class="dropdown">
+                <li><a href="#"></i>喜欢最多</a></li>
+                <li><a href="#"><i class="icon-cog"></i>浏览最多</a></li>
+                <li><a href="#"><i class="icon-remove"></i>评论最多</a></li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <div id="dd" class="wrapper-dropdown-5" tabindex="1"><span class="glyphicon glyphicon-align-left"></span> 不限类别
+              <ul class="dropdown">
+                <li><a href="#"></i>艺术</a></li>
+                <li><a href="#"><i class="icon-cog"></i>唯艺</a></li>
+                <li><a href="#"><i class="icon-remove"></i>Luck Dog</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+
+      <div class="item">
+        <a href="#">
+          <img src="img/back.jpg" alt="" class="item-img">
+        </a>
+        <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div>
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题</a>
+          </h4>
+          <p>这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+
+
+<!--       <div class="item">
+        <div class="grid">
+        <figure class="effect-lily">
+          <img src="img/back.jpg" alt="背影" class="item-img">
+            <figcaption>
+            <h2>Nice <span>Lily</span></h2>
+            <p>Lily likes to play with crayons and pencils</p>
+            <a href="#">View more</a>          
+                  </figcaption>     
+        </figure>
+        </div>
+        <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div>
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div> -->
+      <!-- 图片会超高 -->
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-sadie">
+          <img src="img/content.jpeg" alt="内容" class="item-img">
+            <figcaption>
+            <h2>Holy <span>Sadie</span></h2>
+            <p>Sadie never took her eyes off me. <br>She had a dark soul.</p>
+            <a href="#">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-honey">
+          <img src="img/back.jpg" alt="" class="item-img">
+            <figcaption>
+            <h2>Dreamy <span>Honey</span> <i>Now</i></h2>
+            <a href="#">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-layla">
+          <img src="img/content.jpeg" alt="" class="item-img">
+            <figcaption>
+            <h2>Crazy <span>Layla</span></h2>
+            <p>When Layla appears, she brings an eternal summer along.</p>
+            <a href="#">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+      <!-- 此处图片下会有空白 -->
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-zoe">
+          <img src="img/back.jpg" alt="" class="item-img">
+            <figcaption>
+            <h2>Creative <span>Zoe</span></h2>
+            <span class="icon-heart"></span>
+            <span class="icon-eye"></span>
+            <span class="icon-paper-clip"></span>
+            <p>Zoe never had the patience of her sisters. She deliberately punched the bear in his face.</p>
+            <a href="#">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+      
+
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-oscar">
+          <img src="img/content.jpeg" alt="" class="item-img">
+            <figcaption>
+            <h2>Warm <span>Oscar</span></h2>
+            <p>Oscar is a decent man. He used to clean porches with pleasure.</p>
+            <a href="#">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-marley">
+          <img src="img/back.jpg" alt="" class="item-img">
+            <figcaption>
+            <h2>Sweet <span>Marley</span></h2>
+            <p>Marley tried to convince her but she was not interested.</p>
+          <a href="#">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-ruby">
+          <img src="img/content.jpeg" alt="" class="item-img">
+            <figcaption>
+            <h2>Glowing <span>Ruby</span></h2>
+            <p>Ruby did not need any help. Everybody knew that.</p>
+            <a href="#">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-zoe">
+          <img src="img/back.jpg" alt="" class="item-img">
+            <figcaption>
+            <h2>Creative <span>Zoe</span></h2>
+            <span class="icon-heart"></span>
+            <span class="icon-eye"></span>
+            <span class="icon-paper-clip"></span>
+            <p>Zoe never had the patience of her sisters. She deliberately punched the bear in his face.</p>
+            <a href="#">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="item">
+        <div class="grid">
+        <figure class="effect-bubba">
+          <img src="img/content.jpeg" alt="img06" class="item-img">
+            <figcaption>
+            <h2>Fresh <span>Bubba</span></h2>
+            <p>Bubba likes to appear out of thin air.</p>
+            <a href="http://www.lanrenzhijia.com/">View more</a>          
+                    </figcaption>     
+        </figure>
+        </div>
+        <!-- <div class="item-tip">
+          <span class="left">
+            2015.4.27
+          </span>
+          <span class="right">
+            hits:100
+          </span>
+        </div> -->
+        <div class="item-content">
+          <h4>
+            <a href="#" class="title">标题 </a>
+          </h4>
+          <p>这是简介</p>
+          <div>
+            <a href="#">背景</a>
+          </div>
+        </div>
+      </div>
+
+      
+        
+
+
+
+
+
+
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+      // function DropDown(el) {
+      //   this.dd = el;
+      //   this.initEvents();
+      // }
+      // DropDown.prototype = {
+      //   initEvents : function() {
+      //     var obj = this;
+
+      //     obj.dd.on('click', function(event){
+      //       $(this).toggleClass('active');
+      //       event.stopPropagation();
+      //     }); 
+      //   }
+      // }
+
+      //$(function() {
+        
+        // var dd = new DropDown( $('#dd') );
+
+        // $(document).click(function() {
+        //   // all dropdowns
+        //   $('.wrapper-dropdown-5').removeClass('active');
+        // });
+      
+      // });
+      // 以上是自带的下拉列表初始化js语句
+      $(function(){
+        $(".wrapper-dropdown-5").hover(function() {
+          $(this).toggleClass('active');
+          event.stopPropagation();
+        }, function() {
+          $(this).toggleClass('active');
+          event.stopPropagation();
+        });
+
+
+        $(window).scroll(function() {
+            var scroll=$(window).scrollTop();
+            if (scroll>=350) 
+            {
+               $(".navbar").css({
+                  opacity:1
+                  // 两边的引号都可写可不写,但是此处不能加分号，因为它在末尾
+               });
+            }
+            else{
+               $(".navbar").css({
+                  'opacity':'0.7'
+               });
+            }
+            
+         });
+      })
+    </script>
+    <!-- 下拉列表的js -->
+  </body>
+</html>
